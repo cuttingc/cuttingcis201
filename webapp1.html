@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    .guess-buttons button,
+    #restart-btn {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #444;
+    }
+    .scoreboard {
+      margin-top: 30px;
+      font-size: 18px;
+    }
+    .winner {
+      font-size: 24px;
+      font-weight: bold;
+      color: green;
+      margin-top: 20px;
+    }
+    #restart-btn {
+      display: none;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Number Guessing Game</h1>
+  <p>Guess a number between 1 and 5</p>
+
+  <div class="guess-buttons" id="buttons">
+    <button onclick="makeGuess(1)">1</button>
+    <button onclick="makeGuess(2)">2</button>
+    <button onclick="makeGuess(3)">3</button>
+    <button onclick="makeGuess(4)">4</button>
+    <button onclick="makeGuess(5)">5</button>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="scoreboard" id="scoreboard">You: 0 | Computer: 0</div>
+  <div class="winner" id="winner"></div>
+  <button id="restart-btn" onclick="restartGame()">🔄 Play Again</button>
+
+  <script>
+    let userScore = 0;
+    let compScore = 0;
+
+    function makeGuess(userGuess) {
+      const computerChoice = Math.floor(Math.random() * 5) + 1;
+      const resultDiv = document.getElementById('result');
+      const scoreboardDiv = document.getElementById('scoreboard');
+      const winnerDiv = document.getElementById('winner');
+      const restartBtn = document.getElementById('restart-btn');
+
+      if (userScore >= 5 || compScore >= 5) return;
+
+      if (userGuess === computerChoice) {
+        userScore++;
+        resultDiv.innerText = `You guessed ${userGuess}, computer chose ${computerChoice}. 🎉 You score a point!`;
+      } else {
+        compScore++;
+        resultDiv.innerText = `You guessed ${userGuess}, computer chose ${computerChoice}. ❌ Computer scores a point.`;
+      }
+
+      scoreboardDiv.innerText = `You: ${userScore} | Computer: ${compScore}`;
+
+      if (userScore === 5 || compScore === 5) {
+        if (userScore === 5) {
+          winnerDiv.innerText = "🎉 You win the game!";
+        } else {
+          winnerDiv.innerText = "😢 Computer wins the game.";
+        }
+        document.getElementById("buttons").style.pointerEvents = "none";
+        restartBtn.style.display = "inline-block";
+      }
+    }
+
+    function restartGame() {
+      userScore = 0;
+      compScore = 0;
+      document.getElementById('result').innerText = '';
+      document.getElementById('scoreboard').innerText = 'You: 0 | Computer: 0';
+      document.getElementById('winner').innerText = '';
+      document.getElementById('restart-btn').style.display = 'none';
+      document.getElementById("buttons").style.pointerEvents = "auto";
+    }
+  </script>
+
+</body>
+</html>
